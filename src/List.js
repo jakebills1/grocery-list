@@ -1,10 +1,11 @@
 import React from 'react';
-
-const List = ({items, name}) => (
+import GroceryItem from './GroceryItem'
+const List = ({items, name, itemClick }) => (
   <div>
     <h2>{name}</h2>
     <ul>
-      { items.map( item => <li key={item.id}>{item.name}</li>)}
+      { items.map( item => <GroceryItem key={item.id} {...item} itemClick={itemClick} />)}
+        {/* GroceryItem is passed the key, name, and complete properties */}
     </ul>
   </div>
 )

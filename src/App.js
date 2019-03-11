@@ -6,9 +6,7 @@ import './App.css';
 class App extends Component {
   state = {
     listItems: [
-      { id: Math.floor((Math.random() + 1) * 0x10000).toString(16).substring(1), name: "Milk", complete: false},
-      { id: Math.floor((Math.random() + 1) * 0x10000).toString(16).substring(1), name: "Eggs", complete: false},
-      { id: Math.floor((Math.random() + 1) * 0x10000).toString(16).substring(1), name: "Butter", complete: false},
+      { id: 1, name: "Eggs", complete: true, }
     ]
   }
 
@@ -17,7 +15,7 @@ class App extends Component {
     // object destructuring; gets listItems from the state object
     const newItem = { name, id: this.getID(), complete: this.defaultStatus(), }
     // creates the newItem object, with th passed parameter, the getID function, and the default complete
-    this.setState({ listItems: [newItem, ...listItems ]}) 
+    this.setState({ listItems: [...listItems, newItem, ]}) 
   }
 
   defaultStatus = () => {
@@ -28,11 +26,26 @@ class App extends Component {
     return Math.floor((Math.random() + 1) * 0x10000).toString(16).substring(1)
   }
 
+  handleClick = (id) => {
+    const { listItems } = this.state;
+    this.setState({
+      listItems: listItems.map( item => {
+        if ( item.id === id){
+          return {
+            ...item,
+            complete: !item.complete
+          }
+        }
+        return item
+      })
+    })
+  }
+
   render() {
     const { listItems } = this.state;
     return (
       <div className="App">
-          <List name="Grocery List" items={listItems}/>
+          <List name="Grocery List" items={listItems} itemClick={this.handleClick} />
           <hr />
           <h3>Add an Item:</h3>
           <Form addItem={this.addItem} />
