@@ -5,9 +5,7 @@ import './App.css';
 
 class App extends Component {
   state = {
-    listItems: [
-      { id: 1, name: "Eggs", complete: true, }
-    ]
+    listItems: []
   }
 
   addItem = (name) => {
@@ -39,13 +37,19 @@ class App extends Component {
         return item
       })
     })
+    // loops through listItems looking for the passed in id
+  }
+
+  deleteItem = (id) => {
+    const listItems = this.state.listItems.filter( item => item.id !== id)
+    this.setState({listItems})
   }
 
   render() {
     const { listItems } = this.state;
     return (
       <div className="App">
-          <List name="Grocery List" items={listItems} itemClick={this.handleClick} />
+          <List name="Grocery List" items={listItems} itemClick={this.handleClick} deleteItem={this.deleteItem} />
           <hr />
           <h3>Add an Item:</h3>
           <Form addItem={this.addItem} />
