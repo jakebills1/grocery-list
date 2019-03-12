@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import List from './List'
 import Form from './Form'
+import EditForm from './EditForm'
 import './App.css';
 
 class App extends Component {
@@ -13,7 +14,7 @@ class App extends Component {
     // object destructuring; gets listItems from the state object
     const newItem = { name, id: this.getID(), complete: this.defaultStatus(), }
     // creates the newItem object, with th passed parameter, the getID function, and the default complete
-    this.setState({ listItems: [...listItems, newItem, ]}) 
+    this.setState({ listItems: [...listItems, newItem, ]})
   }
 
   defaultStatus = () => {
@@ -45,11 +46,27 @@ class App extends Component {
     this.setState({listItems})
   }
 
+  editItem = (id, name) => {
+    const { listItems } = this.state;
+    debugger
+    this.setState({
+      listItems: listItems.map( item => {
+        if ( item.id === id){
+          return (
+            <EditForm id={id} name={name} />
+          )
+        }
+        return item
+      })
+    })
+  }
+
+
   render() {
     const { listItems } = this.state;
     return (
       <div className="App">
-          <List name="Grocery List" items={listItems} itemClick={this.handleClick} deleteItem={this.deleteItem} />
+          <List name="Grocery List" items={listItems} itemClick={this.handleClick} deleteItem={this.deleteItem} editItem={this.editItem} />
           <hr />
           <h3>Add an Item:</h3>
           <Form addItem={this.addItem} />
