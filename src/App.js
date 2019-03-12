@@ -6,7 +6,8 @@ import './App.css';
 
 class App extends Component {
   state = {
-    listItems: []
+    listItems: [],
+    showForm: false,
   }
 
   addItem = (name) => {
@@ -47,23 +48,20 @@ class App extends Component {
   }
 
   editItem = (id, name) => {
-    const { listItems } = this.state;
-    debugger
+    const { listItems, showForm} = this.state;
     this.setState({
       listItems: listItems.map( item => {
         if ( item.id === id){
-          return (
-            <EditForm id={id} name={name} />
-          )
+          return { showForm: !showForm }
         }
-        return item
       })
     })
   }
 
 
   render() {
-    const { listItems } = this.state;
+    const { listItems, showForm } = this.state;
+
     return (
       <div className="App">
           <List name="Grocery List" items={listItems} itemClick={this.handleClick} deleteItem={this.deleteItem} editItem={this.editItem} />
@@ -71,9 +69,10 @@ class App extends Component {
           <h3>Add an Item:</h3>
           <Form addItem={this.addItem} />
           {/* passes the additem function to the form class */}
-      </div>
-    );
-  }
-}
+          {showForm ? (<EditForm />) : null}
+          </div>
+        );
+      }
+    }
 
-export default App;
+    export default App;
